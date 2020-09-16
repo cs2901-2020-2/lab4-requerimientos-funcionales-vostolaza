@@ -3,7 +3,6 @@ package cs.lab;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-import java.util.Scanner;
 
 
 public class  DNASequencer {
@@ -13,32 +12,41 @@ public class  DNASequencer {
         logger.info("Starting sequencer...");
     }
 
-    public static String inputSequence(){
-        Scanner sc = new Scanner(System.in);
-        String str = sc.nextLine();
-        return str;
-    }
-
-
     public static String calculate(List<String> part){
-        List<String> sequence = new ArrayList<String>();
-
+        List<Character> sequence = new ArrayList<Character>();
         for (String sub : part){
-            logger.info(sub);
+            Boolean sequenceFound = false;
+            if (sequence.isEmpty()){
+                for (int i = 0; i < sub.length(); i++){
+                    sequence.add(sub.charAt(i));
+                }
+            }
+            else{
+                for (int i = 0; i < sequence.size(); i++){
+                    if (sequence.get(i) == sub.charAt(0)){
+                        sequenceFound = true;
+                        for (int j = i; j < sequence.size(); j++){
+                            if (sequence.get(j) != sub.charAt(j-i)){
+                                sequenceFound = false;
+                            }
+                            if (!sequenceFound){break;}
+                        }
+                    }
+                    if (sequenceFound){
+                        for (int k = sequence.size()-i; k < sub.length(); k++){
+                            sequence.add(sub.charAt(k));
+                        }
+                        break;
+                    }
+                }
+            }
         }
 
-        return "AGATTACAGA";
-    }
+        StringBuilder sb = new StringBuilder();
+		for (Character ch: sequence) {
+			sb.append(ch);
+		}
 
-
-
-    public static void main(String[] args){
-        List<String> subseq = new ArrayList<String>();
-        for (int i = 0; i < 3; i++){
-            String str = inputSequence();
-            subseq.add(str);
-        }
-
-        calculate(subseq);
+        return sb.toString();
     }
 }
