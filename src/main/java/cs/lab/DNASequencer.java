@@ -12,6 +12,33 @@ public class  DNASequencer {
         logger.info("Starting sequencer...");
     }
 
+    public static boolean findSequence(List<Character> sequence, String sub, int currentPosition){
+        boolean sequenceFound = true;
+        for (int j = currentPosition; j < sequence.size(); j++){
+            if (sequence.get(j) != sub.charAt(j - currentPosition)) {
+                sequenceFound = false;
+                break;
+            }
+        }
+
+        return sequenceFound;
+    }
+
+    public static void analyzeSubsequence(List<Character> sequence, String sub){
+        boolean sequenceFound = false;
+        for (int i = 0; i < sequence.size(); i++){
+            if (sequence.get(i) == sub.charAt(0)){
+                sequenceFound = findSequence(sequence, sub, i);
+            }
+            if (sequenceFound){
+                for (int k = sequence.size()-i; k < sub.length(); k++){
+                    sequence.add(sub.charAt(k));
+                }
+                break;
+            }
+        }
+    }
+
     public static String calculate(List<String> part) throws SSLengthException, SSAmountException{
         if (part.size() > 160000){
             throw new SSAmountException("Exceeded the amount of expected subsequences.");
@@ -21,31 +48,14 @@ public class  DNASequencer {
             if (sub.length() > 200){
                 throw new SSLengthException("Subsequence length exceeded.");
             }
-            boolean sequenceFound = false;
             if (sequence.isEmpty()){
                 for (int i = 0; i < sub.length(); i++){
                     sequence.add(sub.charAt(i));
                 }
             }
             else{
-                for (int i = 0; i < sequence.size(); i++){
-                    if (sequence.get(i) == sub.charAt(0)){
-                        sequenceFound = true;
-                        for (int j = i; j < sequence.size(); j++){
-                            if (sequence.get(j) != sub.charAt(j - i)) {
-                                sequenceFound = false;
-                                break;
-                            }
-                        }
-                    }
-                    if (sequenceFound){
-                        for (int k = sequence.size()-i; k < sub.length(); k++){
-                            sequence.add(sub.charAt(k));
-                        }
-                        break;
-                    }
+                    analyzeSubsequence(sequence, sub);
                 }
-            }
         }
 
         StringBuilder sb = new StringBuilder();

@@ -9,9 +9,12 @@
     <version>0.1</version>
 
     <properties>
-        <sonar.projectKey>cs2901-2020-2_lab4</sonar.projectKey>
+        <sonar.projectKey>cs2901-2020-2_lab4-requerimientos-funcionales-vostolaza</sonar.projectKey>
         <sonar.organization>cs2901-2020-2</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.login>3422f85d314cb045427b2e989c190d90ff2573a7</sonar.login>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -37,7 +40,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
+                <version>0.8.4</version>
                 <executions>
                     <execution>
                         <goals>
@@ -53,6 +56,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M1</version>
             </plugin>
         </plugins>
     </build>
