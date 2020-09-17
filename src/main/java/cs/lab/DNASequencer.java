@@ -12,10 +12,16 @@ public class  DNASequencer {
         logger.info("Starting sequencer...");
     }
 
-    public static String calculate(List<String> part){
-        List<Character> sequence = new ArrayList<Character>();
+    public static String calculate(List<String> part) throws SSLengthException, SSAmountException{
+        if (part.size() > 160000){
+            throw new SSAmountException("Exceeded the amount of expected subsequences.");
+        }
+        List<Character> sequence = new ArrayList<>();
         for (String sub : part){
-            Boolean sequenceFound = false;
+            if (sub.length() > 200){
+                throw new SSLengthException("Subsequence length exceeded.");
+            }
+            boolean sequenceFound = false;
             if (sequence.isEmpty()){
                 for (int i = 0; i < sub.length(); i++){
                     sequence.add(sub.charAt(i));
@@ -26,10 +32,10 @@ public class  DNASequencer {
                     if (sequence.get(i) == sub.charAt(0)){
                         sequenceFound = true;
                         for (int j = i; j < sequence.size(); j++){
-                            if (sequence.get(j) != sub.charAt(j-i)){
+                            if (sequence.get(j) != sub.charAt(j - i)) {
                                 sequenceFound = false;
+                                break;
                             }
-                            if (!sequenceFound){break;}
                         }
                     }
                     if (sequenceFound){

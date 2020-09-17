@@ -11,11 +11,20 @@ import java.util.Scanner;
 @Test
 public class DNASequencerTest {
 
-    public void testCase0() throws IOException {
+    public void testCase0() throws Exception {
         generic(0);
     }
 
-    private void generic(int i) throws IOException {
+    @Test(expectedExceptions = SSLengthException.class)
+    public void testCase1() throws Exception {
+        generic(1);
+    }
+
+    @Test(expectedExceptions = SSAmountException.class)
+    public void testCase2() throws Exception {
+        generic(2);
+    }
+    private void generic(int i) throws Exception {
         List<String> input = readInput(i);
         String output = readOutput(i);
         DNASequencer sequencer = new DNASequencer();
